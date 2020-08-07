@@ -24,6 +24,7 @@
 
 
 
+
 ### ⚽ 서비스 소개
 
 ` 이젠 경기전에 휘슬온 하세요!`
@@ -33,6 +34,7 @@
 * 
 
 * 
+
 
 
 
@@ -47,9 +49,11 @@
 
 
 
+
 ## 2. Install
 
 ___
+
 
 
 
@@ -63,11 +67,16 @@ ___
 
 
 
+
 ## 4. Contributing
 
 ___
 
+
+
 ### ⚽️ 개발 규칙
+
+
 
 ### 1. Commit Message
 
@@ -87,15 +96,16 @@ ___
 
 
 
+
 ### 2. FrontEnd
 
-* VS code 사용 시 __Indenting Space 2__로 설정
+* VS code 사용 시 __Indenting Space 2__ 로 설정
 
-* Vue SFC 네이밍 __PascalCase__로 작성
+* Vue SFC 네이밍 __PascalCase __로 작성
 
   ` ex) LoginView.vue`
 
-* Function / Variable , Vue Store의 state, getters 네이밍 __camelCase__로 작성
+* Function / Variable , Vue Store의 state, getters 네이밍 __camelCase__ 로 작성
 
   ```javascript
   // 예시
@@ -106,7 +116,7 @@ ___
   }
   ```
 
-* Vue Store의 mutations, actions 함수 네이밍 __UPPER_CASE_SNAKE_CASE__로 작성
+* Vue Store의 mutations, actions 함수 네이밍 __UPPER_CASE_SNAKE_CASE__ 로 작성
 
   ```javascript
   // 예시
@@ -123,11 +133,13 @@ ___
   }
   ```
 
-* 컴포넌트 부착 시 , __kebab-case__로 작성
+* 컴포넌트 부착 시 , __kebab-case__ 로 작성
 
-* HTML 요소의 클래스 네이밍 BEM 방법론으로 작성
+* HTML 요소의 클래스 네이밍 __BEM 방법론__ 으로 작성
 
   ```html
+  <!-- 예시 -->
+  
   <template>
   	<div class="root">
       <my-component></my-component>
@@ -138,9 +150,11 @@ ___
   </template>
   ```
 
-* JSON 키 네이밍 __camelCase__로 작성
+* JSON 키 네이밍 __camelCase __ 로 작성
 
   ```json
+  // 예시
+  
   {
     "userName": "WhistleOn",
     "userAge": 19
@@ -149,9 +163,10 @@ ___
 
 
 
+
 ### 3. Backend
 
-* Function / Variable 네이밍 __camelCase__로 작성
+* Function / Variable 네이밍 __camelCase__ 로 작성
 
   ```java
   // 예시
@@ -167,7 +182,7 @@ ___
 
   `ex) com.hala.whistleon.controller`
 
-* Class 네이밍 __PascalCase__로 작성
+* Class 네이밍 __PascalCase__ 로 작성
 
   ```java
   // 예시
@@ -195,7 +210,7 @@ ___
   }
   ```
 
-* 인스턴스 네이밍은  클래스 이름 그대로 __camelCase__로 작성
+* 인스턴스 네이밍은  클래스 이름 그대로 __camelCase__ 로 작성
 
   ```java
   // 예시
@@ -203,13 +218,14 @@ ___
   WhistleOn whistleOn = new WhistleOn();
   ```
 
-* Enum(열거형)과 상수 네이밍 __UPPER_CASE_SNAKE_CASE__로 작성
+* Enum(열거형)과 상수 네이밍 __UPPER_CASE_SNAKE_CASE__ 로 작성
 
   ```java
   // 예시
   
   public static final String USER_NAME = "WhistleON";
   ```
+
 
 
 
@@ -221,9 +237,12 @@ ___
 
 
 
+
 ## 6. 기타
 
 ___
+
+
 
 ### ⚽️ Branch
 
