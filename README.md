@@ -248,13 +248,13 @@ ___
 
 ```shell
 master
-	└── develop
-     		├── frontend
-     		│			├── frontend_feature/function_1
-     		│			└── frontend_feature/function_2
-     		|
-     		└── backend
-     					├── backend_feature/function_1
-     					└── backend_feature/function_2
+ └── develop
+     ├── frontend
+     │		├── frontend_feature/function_1
+     │		└── frontend_feature/function_2
+     │
+     └── backend
+     			├── backend_feature/function_1
+     			└── backend_feature/function_2
 ```
 
