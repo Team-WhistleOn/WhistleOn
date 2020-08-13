@@ -20,14 +20,17 @@ import java.util.Date;
 @Service
 @AllArgsConstructor
 public class JwtServiceImpl implements JwtService {
-    private static final String SALT = "modtodo";
+    private static final String SALT = "halaGuysWhistleOn";
 
     @Override
     public String create(User subject){
         String jwt = Jwts.builder()
                 .setHeaderParam("typ","JWT")
                 .setHeaderParam("regDate",System.currentTimeMillis())
-                //.setSubject(subject.getUserPhoneNumber())
+                .setSubject(subject.getEmail())
+                .claim("userId",subject.getUserId())
+                .claim("email",subject.getEmail())
+                .claim("userName",subject.getUserName())
                 //.claim("userId",subject....
                 .setExpiration(new Date(System.currentTimeMillis()+(1000*60*60)))
                 .signWith(SignatureAlgorithm.HS256, this.generateKey())

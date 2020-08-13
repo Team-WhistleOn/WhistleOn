@@ -4,6 +4,7 @@ import com.halaguys.whistleon.domain.team.Team;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -15,6 +16,9 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @Column(name = "user_name")
+    private String userName;
 
     @Column(name = "email")
     private String email;
@@ -39,4 +43,18 @@ public class User {
 
     @Column(name = "mvp_count")
     private int mvpCount;
+
+    /**
+     * 팀장인지 팀원인지
+     */
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "join_date")
+    private LocalDate joinDate;
+
+    @Column(name = "withdrawl_date")
+    private LocalDate withdrawlDate;
+
+
 }
