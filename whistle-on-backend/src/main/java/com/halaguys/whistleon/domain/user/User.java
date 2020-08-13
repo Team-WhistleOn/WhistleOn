@@ -1,12 +1,19 @@
 package com.halaguys.whistleon.domain.user;
 
 import com.halaguys.whistleon.domain.team.Team;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@DynamicInsert
 @Getter
+@NoArgsConstructor
 @Entity
 public class User {
     @Id @GeneratedValue
@@ -30,18 +37,23 @@ public class User {
     private String location;
 
     @Column(name = "win")
+    @ColumnDefault(value = "0")
     private int win;
 
     @Column(name = "draw")
+    @ColumnDefault(value = "0")
     private int draw;
 
     @Column(name = "lose")
+    @ColumnDefault(value = "0")
     private int lose;
 
     @Column(name = "manner")
+    @ColumnDefault(value = "0")
     private Double manner;
 
     @Column(name = "mvp_count")
+    @ColumnDefault(value = "0")
     private int mvpCount;
 
     /**
@@ -56,5 +68,12 @@ public class User {
     @Column(name = "withdrawl_date")
     private LocalDate withdrawlDate;
 
+    @Builder
+    public User(String userName,String email, String location, String password){
+        this.userName = userName;
+        this.email = email;
+        this.location = location;
+        this.password = password;
+    }
 
 }
