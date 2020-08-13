@@ -3,11 +3,14 @@ package com.halaguys.whistleon.service;
 import com.halaguys.whistleon.domain.user.User;
 import com.halaguys.whistleon.domain.user.UserRepository;
 import com.halaguys.whistleon.dto.request.UserLoginRequestDto;
+import com.halaguys.whistleon.dto.request.UserRegistRequestDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -22,9 +25,10 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
+    @Transactional
     @Override
     public User getUserByEmail(String email) throws NoSuchElementException{
-        return userRepository.findAllByEmail(email)
+        return userRepository.findUserByEmail(email)
                 .orElseThrow(NoSuchElementException::new);
     }
 
@@ -33,5 +37,16 @@ public class UserServiceImpl implements UserService{
         if(!userPassword.trim().equals(inputPassword.trim())){
             throw new UnauthorizedException();
         }
+    }
+
+    @Override
+    public void regist(UserRegistRequestDto userDto) {
+        User user = User.builder()
+                .userName(userDto.getUserName())
+                .email(userDto.getEmail())
+                .location(userDto.getLocation())
+                .password(userDto.getPassword())
+                .build();
+        userRepository.save(user);
     }
 }
