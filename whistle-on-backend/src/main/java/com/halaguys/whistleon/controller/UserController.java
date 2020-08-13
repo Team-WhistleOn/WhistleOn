@@ -33,8 +33,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserLoginRequestDto userLoginRequestDto, HttpServletResponse response){
         Map<String,String> map = new HashMap<>();
         try{
-            User user = userService.getUserByEmail(userLoginRequestDto.getEmail());
-            userService.matchPassword(user.getPassword(),userLoginRequestDto.getPassword());
+            User user = userService.login(userLoginRequestDto);
             String token = jwtService.create(user);
             response.setHeader("Authorization",token);
             map.put("msg","로그인 성공");
@@ -50,7 +49,7 @@ public class UserController {
     @ApiOperation(value = "회원가입")
     @PostMapping("/users/signup")
     public ResponseEntity<String> signUp(@RequestBody UserRegistRequestDto userRegistRequestDto){
-
+        
         return null;
     }
 }
