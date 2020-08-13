@@ -63,5 +63,19 @@ public class UserController {
         }
     }
 
-    
+    @ApiOperation(value = "이메일 중복확인")
+    @GetMapping("/users/check/{email}")
+    public ResponseEntity<?> checkEmail(@PathVariable String email){
+        Map<String,String> map = new HashMap<>();
+        try{
+            if(userService.checkEmail(email)){
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }else{
+                map.put("msg","사용가능한 이메일입니다.");
+                return new ResponseEntity<>(map,HttpStatus.OK);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
