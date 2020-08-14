@@ -3,6 +3,7 @@ package com.halaguys.whistleon.controller;
 import com.halaguys.whistleon.domain.user.User;
 import com.halaguys.whistleon.dto.request.UserLoginRequestDto;
 import com.halaguys.whistleon.dto.request.UserRegistRequestDto;
+import com.halaguys.whistleon.dto.response.UserInfoResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import com.halaguys.whistleon.service.JwtService;
 import com.halaguys.whistleon.service.UserService;
@@ -21,10 +22,10 @@ import java.util.NoSuchElementException;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    JwtService jwtService;
+    private JwtService jwtService;
 
     @ApiOperation(value = "로그인")
     @PostMapping("/users/login")
@@ -78,4 +79,18 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @ApiOperation(value = "마이페이지")
+    @GetMapping("/users/{email}")
+    public ResponseEntity<? extends UserInfoResponseDto> userInfo(@PathVariable String email){
+        try{
+            UserInfoResponseDto userInfoResponseDto = userService.getUserInfo(email);
+            return new ResponseEntity<>(userInfoResponseDto,HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
