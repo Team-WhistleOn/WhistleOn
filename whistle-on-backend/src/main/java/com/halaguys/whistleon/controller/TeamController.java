@@ -1,6 +1,8 @@
 package com.halaguys.whistleon.controller;
 
+import com.halaguys.whistleon.domain.team.Team;
 import com.halaguys.whistleon.dto.request.TeamRegisterRequestDto;
+import com.halaguys.whistleon.service.TeamService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,17 +31,21 @@ public class TeamController {
         ResponseEntity response = null;
         Map<String,Object> map = new HashMap<String,Object>();
 
-        int cnt = teamService.register(teamRegisterRequestDto);
-
-        if(cnt!=0){
-            map.put("msg","팀 등록 성공.");
-            response = new ResponseEntity(map, HttpStatus.OK);
-        }else{
-            map.put("msg","팀 등록 실패.");
-            response = new ResponseEntity(map, HttpStatus.BAD_REQUEST);
+        try {
+            Team team = teamService.registerTeam(teamRegisterRequestDto);
+            response =new ResponseEntity(map,HttpStatus.OK);
+            return response;
+        } catch (Exception e) {
+            response= new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
+            return response;
         }
+    }
 
-        return response;
+    @ApiOperation("팀 삭제")
+    @DeleteMapping("/{teamId}")
+    public Object deleteTeam(@PathVariable("teamId") Long teamId){
+
+        return null;
     }
 
 }
