@@ -4,6 +4,7 @@ import com.halaguys.whistleon.domain.user.User;
 import com.halaguys.whistleon.dto.request.UserLoginRequestDto;
 import com.halaguys.whistleon.dto.request.UserRegistRequestDto;
 import com.halaguys.whistleon.dto.response.UserInfoResponseDto;
+import com.halaguys.whistleon.dto.response.UserStatResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import com.halaguys.whistleon.service.JwtService;
 import com.halaguys.whistleon.service.UserService;
@@ -93,4 +94,16 @@ public class UserController {
         }
     }
 
+    @ApiOperation(value = "개인스탯")
+    @GetMapping("/users/stat/{email}")
+    public ResponseEntity<? extends UserStatResponseDto> userStat(@PathVariable String email){
+        try{
+            UserStatResponseDto userStatResponseDto = userService.getUserStat(email);
+            return new ResponseEntity<>(userStatResponseDto,HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

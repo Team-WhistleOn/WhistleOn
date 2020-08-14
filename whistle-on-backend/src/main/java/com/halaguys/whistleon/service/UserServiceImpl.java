@@ -5,6 +5,7 @@ import com.halaguys.whistleon.domain.user.UserRepository;
 import com.halaguys.whistleon.dto.request.UserLoginRequestDto;
 import com.halaguys.whistleon.dto.request.UserRegistRequestDto;
 import com.halaguys.whistleon.dto.response.UserInfoResponseDto;
+import com.halaguys.whistleon.dto.response.UserStatResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,4 +74,22 @@ public class UserServiceImpl implements UserService{
                 .teamName(user.getTeam() == null ? "false" : user.getTeam().getTeamName())
                 .build();
     }
+
+    @Override
+    public UserStatResponseDto getUserStat(String email) {
+        User user = Optional.of(getUserByEmail(email)
+                .orElseThrow(NoSuchElementException::new))
+                .get();
+        return UserStatResponseDto
+                .builder()
+                .age(user.getAge())
+                .height(user.getHeight())
+                .win(user.getWin())
+                .draw(user.getDraw())
+                .lose(user.getLose())
+                .manner(user.getManner())
+                .mvpCount(user.getMvpCount())
+                .build();
+    }
+
 }
