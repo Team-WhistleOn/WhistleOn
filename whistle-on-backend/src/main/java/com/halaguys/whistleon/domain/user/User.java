@@ -68,12 +68,21 @@ public class User {
     @Column(name = "withdrawl_date")
     private LocalDate withdrawlDate;
 
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "height")
+    private int height;
+
+
     @Builder
-    public User(String userName,String email, String location, String password){
+    public User(String userName,String email, String location, String password, int age, int height){
         this.userName = userName;
         this.email = email;
         this.location = location;
         this.password = password;
+        this.age = age;
+        this.height = height;
     }
 
 }

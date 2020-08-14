@@ -10,4 +10,6 @@ public class UserRegistRequestDto {
     private String userName;
     private String password;
     private String location;
+    private int height;
+    private int age;
 }
