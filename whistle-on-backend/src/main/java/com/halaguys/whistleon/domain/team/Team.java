@@ -1,6 +1,7 @@
 package com.halaguys.whistleon.domain.team;
 
 import com.halaguys.whistleon.domain.user.User;
+import com.halaguys.whistleon.dto.request.TeamModifyRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -31,5 +32,12 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<User> users = new ArrayList<>();
+
+    public void update(Long id, TeamModifyRequestDto dto){
+        this.teamName=dto.getTeamName();
+        this.location=dto.getLocation();
+        this.logo=dto.getLogo();
+        this.description=dto.getDescription();
+    }
 
 }
