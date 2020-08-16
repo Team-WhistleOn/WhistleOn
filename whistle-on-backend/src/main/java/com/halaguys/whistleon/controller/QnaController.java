@@ -2,6 +2,7 @@ package com.halaguys.whistleon.controller;
 
 import com.halaguys.whistleon.dto.request.QnaRegistRequestDto;
 import com.halaguys.whistleon.dto.request.QnaUpdateRequestDto;
+import com.halaguys.whistleon.dto.response.QnaSearchAllResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import com.halaguys.whistleon.service.QnaService;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -63,6 +65,17 @@ public class QnaController {
             return new ResponseEntity<>(map,HttpStatus.OK);
         }catch (NoSuchElementException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @ApiOperation("qna 전체리스트 불러오기")
+    @GetMapping("/qna")
+    public ResponseEntity<?> searchAll() {
+        try{
+            List<QnaSearchAllResponseDto> qnaSearchAllResponseDtoList = qnaService.searchAll();
+            return new ResponseEntity<>(qnaSearchAllResponseDtoList, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
