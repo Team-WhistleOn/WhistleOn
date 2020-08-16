@@ -1,5 +1,5 @@
 import {ActionContext, ActionTree, Commit, Dispatch} from 'vuex';
-import {IRoot, IUser} from '@/store/store.interface';
+import {IRoot, IUser} from '@/types/interface';
 import {userLogin, userSignup, userEmailCheck} from '@/api/auth';
 import {saveTokenToCookie, deleteCookies} from '@/utils/cookies';
 

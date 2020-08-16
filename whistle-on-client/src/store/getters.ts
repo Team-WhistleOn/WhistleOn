@@ -1,5 +1,5 @@
 import {GetterTree} from 'vuex';
-import {IRoot} from '@/store/store.interface';
+import {IRoot} from '@/types/interface';
 
 const getters: GetterTree<IRoot, IRoot> = {
   isLoggedIn(state) {
