@@ -1,5 +1,5 @@
 import instance from './index';
-import {IUser} from '@/store/store.interface';
+import {IUser} from '@/types/interface';
 import {AxiosResponse} from 'axios';
 
 export function userLogin({email, password}: {email: string, password: string}): Promise<AxiosResponse<{msg: string, userName: string}>> {
