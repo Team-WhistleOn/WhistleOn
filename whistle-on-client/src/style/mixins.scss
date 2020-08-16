@@ -1,0 +1,85 @@
+@import 'variables', 'animation', 'transition';
+
+// layout
+@mixin layout-size($width: $full, $height: $full) {
+  width: $width;
+  height: $height;
+}
+
+@mixin flex-row {
+  display: flex;
+}
+
+@mixin flex-col {
+  @include flex-row;
+  flex-direction: column;
+}
+
+@mixin align-center {
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin align-sb {
+  @include align-center;
+  justify-content: space-between;
+}
+
+@mixin align-sa {
+  @include align-center;
+  justify-content: space-around;
+}
+
+@mixin margin-auto {
+  margin: 0 auto;
+}
+
+@mixin box-shadow(
+  $x-position,
+  $y-position,
+  $blur,
+  $spread
+) {
+  box-shadow: $x-position $y-position $blur $spread;
+}
+
+// position
+@mixin fix-pos {
+  position: fixed;
+  top: $top;
+  left: $left;
+  z-index: $z-index;
+}
+
+@mixin rel-pos {
+  position: relative;
+  z-index: $z-index;
+}
+
+@mixin abs-pos {
+  position: absolute;
+  z-index: $z-index;
+}
+
+// border
+@mixin border-radius($payload) {
+  border-radius: $payload;
+}
+
+// ux
+@mixin pointer {
+  cursor: pointer;
+}
+
+// animation | transition
+@mixin fade-in {
+  animation-name: fade-in;
+  animation-iteration-count: 1;
+  animation-duration: 1500ms;
+}
+
+@mixin slide-from-left {
+  animation-name: slide-from-left;
+  animation-iteration-count: 1;
+  animation-duration: 1500ms;
+}
