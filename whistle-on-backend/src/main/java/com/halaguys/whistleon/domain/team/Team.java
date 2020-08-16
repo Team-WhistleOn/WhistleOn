@@ -4,14 +4,17 @@ import com.halaguys.whistleon.domain.user.User;
 import com.halaguys.whistleon.dto.request.TeamModifyRequestDto;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@DynamicInsert
 @Getter
-@Builder
+@NoArgsConstructor
+@Entity
 public class Team {
     @Id @GeneratedValue
     @Column(name = "team_id")
@@ -32,6 +35,14 @@ public class Team {
 
     @OneToMany(mappedBy = "team")
     private List<User> users = new ArrayList<>();
+
+    @Builder
+    public Team(String teamName, String location, String logo, String description) {
+        this.teamName=teamName;
+        this.location=location;
+        this.logo=logo;
+        this.description=description;
+    }
 
     public void update(Long id, TeamModifyRequestDto dto){
         this.teamName=dto.getTeamName();
