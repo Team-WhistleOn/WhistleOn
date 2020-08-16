@@ -39,8 +39,8 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public boolean isUsable(String jwt) throws Exception {
-        try{
+    public boolean isUsable(String jwt) throws UnauthorizedException{
+        try {
             Jws<Claims> claims = Jwts.parser()
                     .setSigningKey(this.generateKey())
                     .parseClaimsJws(jwt);
@@ -69,8 +69,6 @@ public class JwtServiceImpl implements JwtService {
         } catch (UnsupportedEncodingException e) {
             throw new Exception();
         }
-        Object value = claims.getBody().get(key);
-        System.out.println(value);
-        return value;
+        return claims.getBody().get(key);
     }
 }

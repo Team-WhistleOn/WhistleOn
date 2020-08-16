@@ -5,5 +5,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface QnaService {
     @Transactional
-    int registQna(String email, QnaRegistRequestDto qnaRegistDto);
+    int registQna(String token, QnaRegistRequestDto qnaRegistDto) throws Exception;
 }
