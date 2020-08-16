@@ -34,6 +34,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public Optional<User> getUserById(int userId) {
+        return userRepository.findUserByUserId(userId);
+    }
+
+    @Override
     public void matchPassword(String userPassword, String inputPassword) throws UnauthorizedException{
         if(!userPassword.trim().equals(inputPassword.trim())){
             throw new UnauthorizedException();

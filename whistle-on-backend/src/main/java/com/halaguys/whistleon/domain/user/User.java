@@ -1,5 +1,6 @@
 package com.halaguys.whistleon.domain.user;
 
+import com.halaguys.whistleon.domain.qna.Qna;
 import com.halaguys.whistleon.domain.team.Team;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @DynamicInsert
 @Getter
@@ -76,6 +79,9 @@ public class User {
 
     @Column(name = "position")
     private String position;
+
+    @OneToMany(mappedBy = "user")
+    List<Qna> qnaList = new ArrayList<>();
 
     @Builder
     public User(String userName,String email, String location, String password, int age, int height,

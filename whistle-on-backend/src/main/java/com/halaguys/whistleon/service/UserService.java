@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserService {
     User login(UserLoginRequestDto userDto);
     Optional<User> getUserByEmail(String email);
+    Optional<User> getUserById(int userId);
     void matchPassword(String userPassword,String inputPassword);
     void regist(UserRegistRequestDto userDto);
     boolean checkEmail(String email);
