@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService{
                 .password(userDto.getPassword())
                 .age(userDto.getAge())
                 .height(userDto.getHeight())
+                .position(userDto.getPosition())
                 .build();
         userRepository.save(user);
     }
@@ -72,6 +73,7 @@ public class UserServiceImpl implements UserService{
                 .location(user.getLocation())
                 .height(user.getHeight())
                 .teamName(user.getTeam() == null ? "false" : user.getTeam().getTeamName())
+                .position(user.getPosition())
                 .build();
     }
 
@@ -89,6 +91,7 @@ public class UserServiceImpl implements UserService{
                 .lose(user.getLose())
                 .manner(user.getManner())
                 .mvpCount(user.getMvpCount())
+                .position(user.getPosition())
                 .build();
     }
 

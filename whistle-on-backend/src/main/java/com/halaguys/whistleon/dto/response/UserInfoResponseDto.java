@@ -10,18 +10,20 @@ public class UserInfoResponseDto {
     private String email;
     private String userName;
     private String location;
+    private String position;
     private int height;
     private int age;
     private String teamName;
 
     @Builder
     public UserInfoResponseDto(String email, String userName, String location
-            , int height, int age, String teamName){
+            , int height, int age, String teamName,String position){
         this.email = email;
         this.userName = userName;
         this.location = location;
         this.height = height;
         this.age = age;
         this.teamName = teamName;
+        this.position = position;
     }
 }

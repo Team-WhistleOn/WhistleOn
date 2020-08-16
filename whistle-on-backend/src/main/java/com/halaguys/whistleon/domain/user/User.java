@@ -74,15 +74,19 @@ public class User {
     @Column(name = "height")
     private int height;
 
+    @Column(name = "position")
+    private String position;
 
     @Builder
-    public User(String userName,String email, String location, String password, int age, int height){
+    public User(String userName,String email, String location, String password, int age, int height,
+                String position){
         this.userName = userName;
         this.email = email;
         this.location = location;
         this.password = password;
         this.age = age;
         this.height = height;
+        this.position = position;
     }
 
 }
