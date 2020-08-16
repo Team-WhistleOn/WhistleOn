@@ -1,6 +1,7 @@
 package com.halaguys.whistleon.controller;
 
 import com.halaguys.whistleon.dto.request.QnaRegistRequestDto;
+import com.halaguys.whistleon.dto.request.QnaUpdateRequestDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import com.halaguys.whistleon.service.QnaService;
 import io.swagger.annotations.ApiOperation;
@@ -36,9 +37,20 @@ public class QnaController {
         }
     }
 
-    @ApiOperation("qna 삭제")
-    @DeleteMapping("/qna/{qnaId}")
-    public ResponseEntity<?> deleteQna(HttpServletRequest request, @PathVariable int qnaId){
-        
+    @ApiOperation("qna 업데이트")
+    @PatchMapping("/qna/{qnaId}")
+    public ResponseEntity<?> deleteQna(HttpServletRequest request, @PathVariable int qnaId,
+                                       @RequestBody QnaUpdateRequestDto qnaUpdateRequestDto){
+        Map<String, String> map = new HashMap<>();
+        try{
+            qnaService.modifyQna(request.getHeader("Authorization"),qnaId,qnaUpdateRequestDto);
+            map.put("msg","성공적으로 업데이트 되었습니다");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
+    
 }

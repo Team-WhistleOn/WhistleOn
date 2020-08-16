@@ -44,4 +44,9 @@ public class Qna {
         this.content = content;
         this.regdate = regdate;
     }
+
+    public void update(String content, String title){
+        this.content = content;
+        this.title = title;
+    }
 }

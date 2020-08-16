@@ -58,7 +58,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     //jwt에 있는 데이터 가져오고 싶을 때,
-    public Object get(String key) throws Exception {
+    public Object get(String key) throws UnsupportedEncodingException {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String jwt = request.getHeader("Authorization");
         Jws<Claims> claims = null;
@@ -67,7 +67,7 @@ public class JwtServiceImpl implements JwtService {
                     .setSigningKey(SALT.getBytes("UTF-8"))
                     .parseClaimsJws(jwt);
         } catch (UnsupportedEncodingException e) {
-            throw new Exception();
+            throw new UnsupportedEncodingException();
         }
         return claims.getBody().get(key);
     }
