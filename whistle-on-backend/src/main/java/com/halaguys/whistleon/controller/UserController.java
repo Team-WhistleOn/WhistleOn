@@ -36,7 +36,7 @@ public class UserController {
             User user = userService.login(userLoginRequestDto);
             String token = jwtService.create(user);
             response.setHeader("Authorization",token);
-            map.put("msg","로그인 성공");
+            map.put("msg","로그인이 성공하였습니다.");
             map.put("userName",user.getUserName());
             return new ResponseEntity<>(map,HttpStatus.OK);
         }catch (NoSuchElementException | UnauthorizedException e){
