@@ -1,19 +1,13 @@
 import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import VueRouter, {RouteConfig} from 'vue-router';
+import publicRoutes from '@/router/public';
+import userRoutes from '@/router/user';
 
 Vue.use(VueRouter);
 
 const routes: RouteConfig[] = [
-  {
-    path: '/',
-    name: '',
-    // component: () => import(),
-  },
-  {
-    path: '',
-    name: '',
-    // component: () => import(),
-  },
+  ...publicRoutes,
+  ...userRoutes,
 ];
 
 const router = new VueRouter({
