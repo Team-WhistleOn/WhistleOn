@@ -9,4 +9,6 @@ public interface QnaService {
     int registQna(String token, QnaRegistRequestDto qnaRegistDto) throws Exception;
     @Transactional
     void modifyQna(String token, int qnaId, QnaUpdateRequestDto qnaUpdateDto) throws Exception;
+    @Transactional
+    void deleteQna(String token, int qnaId) throws Exception;
 }

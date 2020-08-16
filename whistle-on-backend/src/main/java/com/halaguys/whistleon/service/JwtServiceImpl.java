@@ -38,6 +38,7 @@ public class JwtServiceImpl implements JwtService {
         return jwt;
     }
 
+
     @Override
     public boolean isUsable(String jwt) throws UnauthorizedException{
         try {

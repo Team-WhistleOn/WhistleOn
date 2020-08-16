@@ -39,7 +39,7 @@ public class QnaController {
 
     @ApiOperation("qna 업데이트")
     @PatchMapping("/qna/{qnaId}")
-    public ResponseEntity<?> deleteQna(HttpServletRequest request, @PathVariable int qnaId,
+    public ResponseEntity<?> updateQna(HttpServletRequest request, @PathVariable int qnaId,
                                        @RequestBody QnaUpdateRequestDto qnaUpdateRequestDto){
         Map<String, String> map = new HashMap<>();
         try{
@@ -52,5 +52,19 @@ public class QnaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @ApiOperation("qna 삭제")
+    @DeleteMapping("/qna/{qnaId}")
+    public ResponseEntity<?> deleteQna(HttpServletRequest request, @PathVariable int qnaId){
+        Map<String, String> map = new HashMap<>();
+        try{
+            qnaService.deleteQna(request.getHeader("Authorization"),qnaId);
+            map.put("msg","성공적으로 삭제하였습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }catch (NoSuchElementException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

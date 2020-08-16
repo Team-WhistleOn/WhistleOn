@@ -58,4 +58,15 @@ public class QnaServiceImpl implements QnaService{
             qna.update(qnaUpdateDto.getContent(), qnaUpdateDto.getTitle());
         }
     }
+
+    @Override
+    public void deleteQna(String token, int qnaId) throws Exception{
+        int userId = (int) jwtService.get("userId");
+        Qna qna = Optional.of(qnaRepository.findQnaByQnaId(qnaId)
+                .orElseThrow(NoSuchElementException::new))
+                .get();
+        if(qna.getUser().getUserId() == userId){
+            qnaRepository.delete(qna);
+        }
+    }
 }
