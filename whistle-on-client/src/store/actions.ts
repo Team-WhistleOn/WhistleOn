@@ -2,6 +2,7 @@ import {ActionContext, ActionTree, Commit, Dispatch} from 'vuex';
 import {IRoot, IUser} from '@/types/interface';
 import {userLogin, userSignup, userEmailCheck} from '@/api/auth';
 import {saveTokenToCookie, deleteCookies} from '@/utils/cookies';
+import {AxiosResponse} from 'axios';
 
 const actions: ActionTree<IRoot, IRoot> = {
   async LOG_IN(
@@ -10,14 +11,10 @@ const actions: ActionTree<IRoot, IRoot> = {
   ) {
     try {
       const {
+        headers: {Authorization},
         data: {msg, userName},
         status,
-        headers: {Authorization},
-      }: {
-        data: {msg: string, userName: string},
-        status: number,
-        headers: {Authorization: string}
-      } = await userLogin({email, password});
+      }: AxiosResponse = await userLogin({email, password});
 
       if (status === 200) {
         saveTokenToCookie(Authorization);
@@ -38,11 +35,11 @@ const actions: ActionTree<IRoot, IRoot> = {
       const {status, data: {msg}}: {status: number, data: {msg: string}} = await userSignup(newUserInfo);
       if (status === 201) {
         alert(msg);
-        await dispatch('LOG_IN', {
+        const loginResult = await dispatch('LOG_IN', {
           email: newUserInfo.email,
           password: newUserInfo.password,
         });
-        return true;
+        return loginResult;
       }
       return false;
     } catch (error) {

@@ -3,8 +3,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import _ from 'lodash';
+import VueLodash from 'vue-lodash';
 
-Object.defineProperty(Vue.prototype, '$_', { value: _});
+Vue.use(VueLodash, {lodash: _});
 
 Vue.config.productionTip = false;
 
