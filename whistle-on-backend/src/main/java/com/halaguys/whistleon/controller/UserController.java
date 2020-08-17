@@ -6,6 +6,7 @@ import com.halaguys.whistleon.dto.request.UserRegistRequestDto;
 import com.halaguys.whistleon.dto.response.UserInfoResponseDto;
 import com.halaguys.whistleon.dto.response.UserStatResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
+import com.halaguys.whistleon.service.EmailService;
 import com.halaguys.whistleon.service.JwtService;
 import com.halaguys.whistleon.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +28,9 @@ public class UserController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private EmailService emailService;
 
     @ApiOperation(value = "로그인")
     @PostMapping("/users/login")
@@ -65,19 +69,33 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "이메일 중복확인")
-    @GetMapping("/users/check/{email}")
-    public ResponseEntity<?> checkEmail(@PathVariable String email){
+    @ApiOperation(value = "이메일 인증하기")
+    @GetMapping("/users/auth/{email}")
+    public ResponseEntity<?> authEmail(@PathVariable String email){
         Map<String,String> map = new HashMap<>();
         try{
             if(userService.checkEmail(email)){
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             }else{
-                map.put("msg","사용가능한 이메일입니다.");
+                emailService.sendMail(email);
+                map.put("msg","인증 번호를 발송하였습니다.");
                 return new ResponseEntity<>(map,HttpStatus.OK);
             }
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @ApiOperation(value = "인증번호 확인하기")
+    @GetMapping("/users/auth/{email}/{code}")
+    public ResponseEntity<?> authCode(@PathVariable String email, @PathVariable String code){
+        Map<String,String> map = new HashMap<>();
+        if(emailService.getMailCode(email).equals(code)){
+            emailService.deleteMailCode(email);
+            map.put("msg","인증이 완료되었습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
