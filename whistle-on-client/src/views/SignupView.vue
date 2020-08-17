@@ -1,34 +1,87 @@
 <template>
   <div class="signup">
-    <vue-daum-postcode
-        v-if="isOnAddress"
-        @complete="pickAddress"
-    />
     <form class="signup__form" @submit.prevent="onSubmitSignup" ref="form">
       <h1 class="signup__title">Whistle On Signup</h1>
       <ul class="signup__ul">
         <li class="signup__li">
-          <input class="signup__input signup__input--email" type="email" placeholder="이메일" v-model="userEmail" required />
-          <button class="signup__btn signup__btn--email" @click.stop="checkEmailRedundancy">중복확인</button>
-          <input class="signup__input" type="text" placeholder="이름" v-model="userName" required>
+          <input
+            class="signup__input signup__input--email"
+            type="email"
+            placeholder="이메일"
+            v-model="userEmail"
+            required
+          />
+          <button class="signup__btn signup__btn--email" @click.stop="checkEmailRedundancy">인증하기</button>
+          <input class="signup__input" type="text" placeholder="이름" v-model="userName" required />
         </li>
         <li class="signup__li">
-          <input class="signup__input" type="password" placeholder="비밀번호" v-model="userPassword" required />
-          <input class="signup__input" type="password" placeholder="비밀번호 확인" v-model="userPasswordCheck" required />
+          <input
+            class="signup__input"
+            type="password"
+            id="password"
+            placeholder="비밀번호"
+            minlength="6"
+            maxlength="20"
+            v-model="userPassword"
+            required
+          />
+          <input
+            class="signup__input"
+            type="password"
+            id="password-check"
+            placeholder="비밀번호 확인"
+            v-model="userPasswordCheck"
+            required
+          />
         </li>
+          <li class="signup__li signup__li--address" v-if="isOnAddress">
+            <vue-daum-postcode @complete="pickAddress" />
+          </li>
         <li class="signup__li">
-          <input class="signup__input" type="text" readonly placeholder="연고지 주소" v-model="mainAddress" @click="toggleAddress" required />
-          <input class="signup__input" type="text" placeholder="상세주소" v-model="detailAddress" required />
+          <input
+            class="signup__input"
+            type="text"
+            readonly
+            placeholder="연고지 주소"
+            v-model="mainAddress"
+            @click="toggleAddress"
+            required
+          />
+          <input
+            class="signup__input"
+            type="text"
+            placeholder="상세주소"
+            v-model="detailAddress"
+            required
+          />
         </li>
         <li class="signup__li signup__li--personal-info">
-          <input class="signup__input" type="number" placeholder="신장(단위: cm)" id="height" v-model="userHeight" required />
-          <select class="signup__select" v-model="preferencePosition" >
-            <option class="signup__option" value="" selected disabled>::선호 포지션::</option>
-            <option class="signup__option" v-for="position in positions" :key="position" :value="position">{{position}}</option>
+          <input
+            class="signup__input"
+            type="number"
+            placeholder="신장(단위: cm)"
+            id="height"
+            v-model="userHeight"
+            required
+          />
+          <select class="signup__select" v-model="preferencePosition">
+            <option class="signup__option" value selected disabled>::선호 포지션::</option>
+            <option
+              class="signup__option"
+              v-for="position in positions"
+              :key="position"
+              :value="position"
+            >{{position}}</option>
           </select>
         </li>
         <li class="signup__li">
-          <input class="signup__input" type="text" placeholder="생년월일 (예: 20200731)" v-model="birthDay" required />
+          <input
+            class="signup__input"
+            type="text"
+            placeholder="생년월일 (예: 20200731)"
+            v-model="birthDay"
+            required
+          />
           <input class="signup__input" type="text" :value="`${age}세`" id="age" readonly disabled />
         </li>
       </ul>
@@ -39,23 +92,24 @@
 
 <script lang="ts">
 import {Component, Mixins} from 'vue-property-decorator';
-import {mapActions} from 'vuex';
+import {Action} from 'vuex-class';
 import FormValidate from '@/mixins/formValidate.ts';
 import {VueDaumPostcode} from 'vue-daum-postcode';
+import {IUser} from '@/types/interface';
 
 @Component({
   components: {
     VueDaumPostcode,
     FormValidate,
   },
-  methods: {
-    ...mapActions([
-      'CHECK_EMAIL',
-      'SIGN_UP',
-    ]),
-  },
 })
 export default class Signup extends Mixins(FormValidate) {
+  @Action('SIGN_UP')
+  private readonly SIGN_UP!: (newUserInfo: IUser) => Promise<boolean>;
+
+  @Action('CHECK_EMAIL')
+  private readonly CHECK_EMAIL!: ({email}: {email: string}) => Promise<boolean>;
+
   private userEmail: string = '';
   private userName: string = '';
   private userPassword: string = '';
@@ -64,20 +118,19 @@ export default class Signup extends Mixins(FormValidate) {
   private detailAddress: string = '';
   private userHeight: number | '' = '';
   private birthDay: string = '';
-  private readonly preferencePosition: string = '';
+  private readonly preferencePosition: IUser['position'] = 'GK';
   private readonly positions: string[] = ['GK', 'ST', 'LW', 'RW', 'CAM', 'CM', 'CDM', 'LB', 'CB', 'RB'];
 
-  private isCheckedEmail: boolean = false;
   private isOnAddress: boolean = false;
 
-  get age(): number {
+  private get age(): number {
     return new Date().getFullYear() - Number(this.birthDay.substr(0, 4)) + 1;
   }
 
-  public async onSubmitSignup() {
+  private async onSubmitSignup() {
     try {
-      if (this.validateForm(this.$refs.form)) {
-        const response: Promise<boolean> = await this.SIGN_UP({
+      if (this.validateForm((this.$refs.form) as unknown as HTMLElement[])) {
+        await this.SIGN_UP({
           email: this.userEmail,
           password: this.userPassword,
           location: `${this.mainAddress} ${this.detailAddress}`,
@@ -92,14 +145,14 @@ export default class Signup extends Mixins(FormValidate) {
     }
   }
 
-  public toggleAddress() {
+  private toggleAddress() {
     this.isOnAddress = !this.isOnAddress;
   }
 
-  public async checkEmailRedundancy() {
+  private async checkEmailRedundancy() {
     try {
-      if (this.$_.isEmpty(this.userEmail)) { return alert('이메일을 입력해주세요.'); }
-      const response: Promise<boolean> = await this.CHECK_EMAIL({email: this.userEmail});
+      if (this._.isEmpty(this.userEmail)) { return alert('이메일을 입력해주세요.'); }
+      const response = await this.CHECK_EMAIL({email: this.userEmail});
       if (response) {
         this.isCheckedEmail = true;
       } else {
@@ -111,7 +164,7 @@ export default class Signup extends Mixins(FormValidate) {
     }
   }
 
-  public pickAddress({roadAddress}: {roadAddress: string}) {
+  private pickAddress({roadAddress}: {roadAddress: string}) {
     this.mainAddress = roadAddress;
     this.toggleAddress();
   }
