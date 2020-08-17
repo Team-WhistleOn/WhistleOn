@@ -2,12 +2,20 @@ import {Vue, Component} from 'vue-property-decorator';
 
 @Component
 export default class FormValidate extends Vue {
-  private isValid: boolean[] = [];
+  protected isCheckedEmail: boolean = false;
+  private pwMatched: boolean = false;
 
-  public validateForm(target: HTMLInputElement[]): boolean {
-    this.isValid = new Array(target.length).fill(false);
-    console.log([...target].filter((v) => v.tagName === 'INPUT'));
-    if (this.isValid.find((v) => !v)) {
+  validateForm(target: HTMLElement[]): boolean {
+    const inputArr: HTMLInputElement[] = Array.prototype
+      .filter.call(target, (v) => v.tagName === 'INPUT');
+
+    const existBlank = inputArr.some((v) => !this._.isEmpty(v.value));
+    const pw = inputArr.find((v) => v.id === 'password');
+    const pwCheck = inputArr.find((v) => v.id === 'passwordCheck');
+
+    if (pwCheck) { this.pwMatched = pw === pwCheck; }
+
+    if ([existBlank, this.pwMatched, this.isCheckedEmail].find((v) => !v)) {
       alert('양식을 확인해주세요.');
       return false;
     } else {
