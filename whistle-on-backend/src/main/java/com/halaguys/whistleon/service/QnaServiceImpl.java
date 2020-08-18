@@ -9,6 +9,8 @@ import com.halaguys.whistleon.dto.response.QnaSearchAllResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import javafx.util.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,6 +79,22 @@ public class QnaServiceImpl implements QnaService{
     @Override
     public List<QnaSearchAllResponseDto> searchAll(){
         List<Qna> qnaList = qnaRepository.findAll();
+        List<QnaSearchAllResponseDto> list = new ArrayList<>();
+        qnaList.forEach(qna -> list.add(QnaSearchAllResponseDto
+                .builder()
+                .qnaId(qna.getQnaId())
+                .title(qna.getTitle())
+                .userId(qna.getUser().getUserId())
+                .userName(qna.getUser().getUserName())
+                .regdate(qna.getRegdate())
+                .build()));
+        return list;
+    }
+
+    @Override
+    public List<QnaSearchAllResponseDto> searchQnaByPage(int page) {
+        PageRequest pageRequest = PageRequest.of(page,10);
+        Page<Qna> qnaList = qnaRepository.findAll(pageRequest);
         List<QnaSearchAllResponseDto> list = new ArrayList<>();
         qnaList.forEach(qna -> list.add(QnaSearchAllResponseDto
                 .builder()

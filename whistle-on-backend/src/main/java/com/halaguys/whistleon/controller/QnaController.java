@@ -7,6 +7,8 @@ import com.halaguys.whistleon.exception.UnauthorizedException;
 import com.halaguys.whistleon.service.QnaService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,4 +82,16 @@ public class QnaController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @ApiOperation("qna 페이징을 통한 리스트 불러오기")
+    @GetMapping("/qna/{page}")
+    public ResponseEntity<?> searchList(@PathVariable int page){
+        try{
+            List<QnaSearchAllResponseDto> qnaSearchAllResponseDtoList = qnaService.searchQnaByPage(page-1);
+            return new ResponseEntity<>(qnaSearchAllResponseDtoList, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
