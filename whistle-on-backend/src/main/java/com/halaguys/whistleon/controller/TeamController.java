@@ -3,6 +3,7 @@ package com.halaguys.whistleon.controller;
 import com.halaguys.whistleon.domain.team.Team;
 import com.halaguys.whistleon.dto.request.TeamModifyRequestDto;
 import com.halaguys.whistleon.dto.request.TeamRegisterRequestDto;
+import com.halaguys.whistleon.dto.response.TeamResponseDto;
 import com.halaguys.whistleon.service.TeamService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,87 +31,65 @@ public class TeamController {
 
     @ApiOperation("팀 등록")
     @PostMapping("")
-    public Object registerTeam(@RequestBody TeamRegisterRequestDto teamRegisterRequestDto){
-        ResponseEntity response = null;
+    public ResponseEntity<?> registerTeam(@RequestBody TeamRegisterRequestDto teamRegisterRequestDto){
         Map<String,Object> map = new HashMap<String,Object>();
 
         try {
-            Team team = teamService.registerTeam(teamRegisterRequestDto);
-            response =new ResponseEntity(map,HttpStatus.OK);
-            return response;
+            teamService.registerTeam(teamRegisterRequestDto);
+            map.put("msg","팀 등록을 성공하였습니다.");
+            return new ResponseEntity<>(map,HttpStatus.CREATED);
         } catch (Exception e) {
-            response = new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
-            return response;
+            return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);;
         }
     }
 
     @ApiOperation("id로 팀 한개 조회")
     @GetMapping("{id}")
-    public Object findOneTeam(@PathVariable("id") Long id){
-        ResponseEntity response = null;
-        Map<String,Object> map = new HashMap<String,Object>();
-
+    public ResponseEntity<? extends TeamResponseDto> findOneTeam(@PathVariable("id") Long id){
         try {
-            Team team = teamService.findTeamById(id).get();
-            map.put("team",team);
-            response =new ResponseEntity(map,HttpStatus.OK);
-            return response;
+            TeamResponseDto team = teamService.getTeamById(id);
+            return new ResponseEntity<>(team,HttpStatus.OK);
         } catch (Exception e) {
-            response= new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
-            return response;
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
     @ApiOperation("name으로 팀 한개 조회")
     @GetMapping("/name/{teamName}")
-    public Object findOneTeamByName(@PathVariable("teamName") String teamName){
-        ResponseEntity response = null;
-        Map<String,Object> map = new HashMap<String,Object>();
-
+    public ResponseEntity<? extends TeamResponseDto> findOneTeamByName(@PathVariable("teamName") String teamName){
         try {
-            Team team = teamService.findTeamByTeamName(teamName).get();
-            map.put("team",team);
-            response =new ResponseEntity(map,HttpStatus.OK);
-            return response;
+            TeamResponseDto team = teamService.getTeamByTeamName(teamName);
+            return new ResponseEntity<>(team,HttpStatus.OK);
         } catch (Exception e) {
-            response= new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
-            return response;
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ApiOperation("전체 팀 조회")
     @GetMapping("/all")
-    public Object findAllTeam() {
-        ResponseEntity response = null;
-        Map<String, Object> map = new HashMap<String, Object>();
-
+    public ResponseEntity<? extends List<TeamResponseDto>> findAllTeam() {
         try {
-            List<Team> list = teamService.findAllTeam();
-            map.put("list", list);
-            response = new ResponseEntity(map, HttpStatus.OK);
-            return response;
+            List<TeamResponseDto> list = teamService.getAllTeam();
+            return new ResponseEntity<>(list,HttpStatus.OK);
         } catch (Exception e) {
-            response = new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
-            return response;
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @ApiOperation("팀 정보수정")
     @PutMapping("{id}")
-    public Object modifyTeam(@PathVariable("id")Long id, @RequestBody TeamModifyRequestDto teamModifyRequestDto
+    public ResponseEntity<?> modifyTeam(@PathVariable("id")Long id, @RequestBody TeamModifyRequestDto teamModifyRequestDto
     ,HttpServletRequest request) {
-        ResponseEntity response = null;
         Map<String,Object> map = new HashMap<String,Object>();
 
         //권한조회필요!!!
+        Long userId = Long.parseLong(request.getHeader("Authorization"));
 
         try {
-            Team team = teamService.modifyTeam(id,teamModifyRequestDto);
-            response =new ResponseEntity(map,HttpStatus.OK);
-            return response;
+            teamService.modifyTeam(id,teamModifyRequestDto);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
-            response= new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
-            return response;
+            return new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
@@ -118,19 +97,18 @@ public class TeamController {
 
     @ApiOperation("팀 삭제")
     @DeleteMapping("/{id}")
-    public Object deleteTeam(@PathVariable("id") Long id, HttpServletRequest request){
-        ResponseEntity response = null;
+    public ResponseEntity<?> deleteTeam(@PathVariable("id") Long id, HttpServletRequest request){
         Map<String,Object> map = new HashMap<String,Object>();
 
         //권한조회필요!!!
+        Long userId = Long.parseLong(request.getHeader("Authorization"));
 
         try {
             teamService.removeTeam(id);
-            response =new ResponseEntity(map,HttpStatus.OK);
-            return response;
+            map.put("msg","삭제가 완료되었습니다.");
+            return new ResponseEntity(map,HttpStatus.OK);
         } catch (Exception e) {
-            response= new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
-            return response;
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }
