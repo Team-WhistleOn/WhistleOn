@@ -16,4 +16,6 @@ public interface QnaService {
     void deleteQna(String token, int qnaId) throws Exception;
     @Transactional
     List<QnaSearchAllResponseDto> searchAll() throws Exception;
+    @Transactional
+    List<QnaSearchAllResponseDto> searchQnaByPage(int page);
 }
