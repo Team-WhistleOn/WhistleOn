@@ -1,8 +1,14 @@
 package com.halaguys.whistleon.domain.qna;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Getter
+@NoArgsConstructor
 @Entity
 @Table(name = "qna_reply")
 public class QnaReply {
@@ -20,4 +26,11 @@ public class QnaReply {
 
     @Column(name = "regdate")
     private LocalDateTime regdate;
+
+    @Builder
+    public QnaReply(String content,Qna qna,LocalDateTime regdate){
+        this.content = content;
+        this.qna = qna;
+        this.regdate = regdate;
+    }
 }
