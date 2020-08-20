@@ -1,10 +1,15 @@
 package com.halaguys.whistleon.service;
 
 import com.halaguys.whistleon.domain.qna.Qna;
+import com.halaguys.whistleon.domain.qna.QnaReply;
+import com.halaguys.whistleon.domain.qna.QnaReplyRepository;
 import com.halaguys.whistleon.domain.qna.QnaRepository;
 import com.halaguys.whistleon.domain.user.User;
 import com.halaguys.whistleon.dto.request.QnaRegistRequestDto;
+import com.halaguys.whistleon.dto.request.QnaReplyRegistRequestDto;
 import com.halaguys.whistleon.dto.request.QnaUpdateRequestDto;
+import com.halaguys.whistleon.dto.response.QnaInfoResponseDto;
+import com.halaguys.whistleon.dto.response.QnaReplyResponseDto;
 import com.halaguys.whistleon.dto.response.QnaSearchAllResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
 import javafx.util.Builder;
@@ -16,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,6 +38,9 @@ public class QnaServiceImpl implements QnaService{
 
     @Autowired
     QnaRepository qnaRepository;
+
+    @Autowired
+    QnaReplyRepository qnaReplyRepository;
 
     @Override
     public int registQna(String token,QnaRegistRequestDto qnaRegistDto) throws Exception {
@@ -105,5 +114,64 @@ public class QnaServiceImpl implements QnaService{
                 .regdate(qna.getRegdate())
                 .build()));
         return list;
+    }
+
+    @Override
+    public QnaInfoResponseDto getQnaInfo(int qnaId) {
+        Qna qna = Optional.of(qnaRepository.findQnaByQnaId(qnaId)
+                .orElseThrow(NoSuchElementException::new))
+                .get();
+        List<QnaReplyResponseDto> qnaReplyResponseDtos = new ArrayList<>();
+        qna.getQnaReplies()
+                .forEach(qnaReply -> qnaReplyResponseDtos.add(QnaReplyResponseDto
+                 .builder()
+                 .userName("관리자")
+                 .regdate(DateFormatter.DateToString(qnaReply.getRegdate()))
+                 .content(qnaReply.getContent())
+                 .qnaReplyId(qnaReply.getQnaReplyId())
+                 .build()));
+        return QnaInfoResponseDto.builder()
+                .qnaId(qna.getQnaId())
+                .qnaReply(qnaReplyResponseDtos)
+                .content(qna.getContent())
+                .title(qna.getTitle())
+                .regdate(DateFormatter.DateToString(qna.getRegdate()))
+                .userId(qna.getUser().getUserId())
+                .userName(qna.getUser().getUserName())
+                .build();
+    }
+
+    @Override
+    public int insertQnaReply(QnaReplyRegistRequestDto qnaReplyRegistDto) throws Exception {
+        String adminEmail = (String) jwtService.get("email");
+        if(adminEmail.equals("whistleon1@gmail.com")){
+            Qna qna = Optional.of(qnaRepository.findQnaByQnaId(qnaReplyRegistDto.getQnaId())
+                    .orElseThrow(NoSuchElementException::new))
+                    .get();
+            QnaReply qnaReply = QnaReply
+                    .builder()
+                    .qna(qna)
+                    .regdate(LocalDateTime.now())
+                    .content(qnaReplyRegistDto.getContent())
+                    .build();
+            qnaReplyRepository.save(qnaReply);
+            qna.getQnaReplies().add(qnaReply);
+            return qnaReply.getQnaReplyId();
+        }else{
+            throw new UnauthorizedException();
+        }
+    }
+
+    @Override
+    public void deleteQnaReply(int qnaId) throws Exception {
+        String adminEmail = (String) jwtService.get("email");
+        if(adminEmail.equals("whistleon1@gmail.com")){
+            QnaReply qnaReply = Optional.of(qnaReplyRepository.findQnaReplyByQnaReplyId(qnaId)
+                    .orElseThrow(NoSuchElementException::new))
+                    .get();
+            qnaReplyRepository.delete(qnaReply);
+        }else{
+            throw new UnauthorizedException();
+        }
     }
 }

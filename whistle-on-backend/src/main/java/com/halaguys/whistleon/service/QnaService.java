@@ -1,7 +1,9 @@
 package com.halaguys.whistleon.service;
 
 import com.halaguys.whistleon.dto.request.QnaRegistRequestDto;
+import com.halaguys.whistleon.dto.request.QnaReplyRegistRequestDto;
 import com.halaguys.whistleon.dto.request.QnaUpdateRequestDto;
+import com.halaguys.whistleon.dto.response.QnaInfoResponseDto;
 import com.halaguys.whistleon.dto.response.QnaSearchAllResponseDto;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,4 +20,10 @@ public interface QnaService {
     List<QnaSearchAllResponseDto> searchAll() throws Exception;
     @Transactional
     List<QnaSearchAllResponseDto> searchQnaByPage(int page);
+    @Transactional
+    QnaInfoResponseDto getQnaInfo(int qnaId);
+    @Transactional
+    int insertQnaReply(QnaReplyRegistRequestDto qnaReplyRegistDto) throws Exception;
+    @Transactional
+    void deleteQnaReply(int qnaId) throws Exception;
 }

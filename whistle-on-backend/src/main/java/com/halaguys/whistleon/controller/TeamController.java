@@ -39,7 +39,7 @@ public class TeamController {
             map.put("msg","팀 등록을 성공하였습니다.");
             return new ResponseEntity<>(map,HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);;
+            return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
