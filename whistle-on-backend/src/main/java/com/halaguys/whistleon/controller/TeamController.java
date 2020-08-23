@@ -39,7 +39,7 @@ public class TeamController {
             map.put("msg","팀 등록을 성공하였습니다.");
             return new ResponseEntity<>(map,HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(map, HttpStatus.INTERNAL_SERVER_ERROR);;
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -87,9 +87,10 @@ public class TeamController {
 
         try {
             teamService.modifyTeam(id,teamModifyRequestDto);
-            return new ResponseEntity(HttpStatus.OK);
+            map.put("msg","팀 정보 수정을 성공하였습니다.");
+            return new ResponseEntity(map,HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(map,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
