@@ -33,4 +33,8 @@ public class QnaReply {
         this.qna = qna;
         this.regdate = regdate;
     }
+
+    public void updateQnaReply(String content){
+        this.content = content;
+    }
 }
