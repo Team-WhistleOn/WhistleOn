@@ -1,7 +1,28 @@
+@import '../color.scss', '../variables.scss', '../mixins.scss';
+
 @mixin m-fix-pos($top, $right, $bottom, $left) {
   position: fixed;
   top: $top;
   right: $right;
   bottom: $bottom;
   left: $left;
+}
+
+@mixin toolbar-modal($top, $right, $bottom, $left, $z-index) {
+  @include layout-size(100%, null);
+
+  &__nav {
+    @include layout-size(80%, null);
+    @include flex-col;
+    @include align-center;
+    @include set-pos(absolute, $top, $right, $bottom, $left, $z-index);
+    background-color: rgba(0, 0, 0, .7);
+  }
+
+  &__router-link {
+    @include flex-row;
+    @include layout-size(100%, null);
+    padding: 10px 0 10px 10px;
+    color: #fff;
+  }
 }
