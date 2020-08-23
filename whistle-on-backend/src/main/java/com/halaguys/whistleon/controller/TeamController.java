@@ -45,7 +45,7 @@ public class TeamController {
 
     @ApiOperation("id로 팀 한개 조회")
     @GetMapping("{id}")
-    public ResponseEntity<? extends TeamResponseDto> findOneTeam(@PathVariable("id") Long id){
+    public ResponseEntity<? extends TeamResponseDto> findOneTeam(@PathVariable("id") int id){
         try {
             TeamResponseDto team = teamService.getTeamById(id);
             return new ResponseEntity<>(team,HttpStatus.OK);
@@ -78,7 +78,7 @@ public class TeamController {
 
     @ApiOperation("팀 정보수정")
     @PutMapping("{id}")
-    public ResponseEntity<?> modifyTeam(@PathVariable("id")Long id, @RequestBody TeamModifyRequestDto teamModifyRequestDto
+    public ResponseEntity<?> modifyTeam(@PathVariable("id")int id, @RequestBody TeamModifyRequestDto teamModifyRequestDto
     ,HttpServletRequest request) {
         Map<String,Object> map = new HashMap<String,Object>();
 
@@ -97,7 +97,7 @@ public class TeamController {
 
     @ApiOperation("팀 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTeam(@PathVariable("id") Long id, HttpServletRequest request){
+    public ResponseEntity<?> deleteTeam(@PathVariable("id") int id, HttpServletRequest request){
         Map<String,Object> map = new HashMap<String,Object>();
 
         //권한조회필요!!!

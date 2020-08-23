@@ -2,10 +2,7 @@ package com.halaguys.whistleon.domain.user;
 
 import com.halaguys.whistleon.domain.qna.Qna;
 import com.halaguys.whistleon.domain.team.Team;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -16,8 +13,9 @@ import java.util.List;
 
 @DynamicInsert
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "user")
 public class User {
     @Id @GeneratedValue
     @Column(name = "user_id")

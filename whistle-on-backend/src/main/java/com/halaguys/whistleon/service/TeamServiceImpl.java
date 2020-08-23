@@ -44,7 +44,7 @@ public class TeamServiceImpl implements TeamService {
 
     //Read
     @Override
-    public Optional<Team> findTeamById(Long id) {
+    public Optional<Team> findTeamById(int id) {
         return teamRepository.findById(id);
     }
 
@@ -59,7 +59,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamResponseDto getTeamById(Long id) {
+    public TeamResponseDto getTeamById(int id) {
         Team team= Optional.of(findTeamById(id))
                 .orElseThrow(NoSuchElementException::new).get();
 
@@ -108,7 +108,7 @@ public class TeamServiceImpl implements TeamService {
 
     //Update
     @Override
-    public void modifyTeam(Long id, TeamModifyRequestDto teamModifyRequestDto) {
+    public void modifyTeam(int id, TeamModifyRequestDto teamModifyRequestDto) {
         Team team = Optional.of(findTeamById(id)
         .orElseThrow(NoSuchElementException::new))
                 .get();
@@ -117,7 +117,7 @@ public class TeamServiceImpl implements TeamService {
 
     //Delete
     @Override
-    public void removeTeam(Long id) {
+    public void removeTeam(int id) {
         teamRepository.deleteById(id);
     }
 

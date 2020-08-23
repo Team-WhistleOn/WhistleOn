@@ -13,19 +13,19 @@ public interface TeamService {
     public void registerTeam(TeamRegisterRequestDto teamRegisterRequestDto);
 
     //Read
-    public Optional<Team> findTeamById(Long id);
+    public Optional<Team> findTeamById(int id);
     public Optional<Team> findTeamByTeamName(String name);
     public List<Team> findAllTeam();
 
-    public TeamResponseDto getTeamById(Long id);
+    public TeamResponseDto getTeamById(int id);
     public TeamResponseDto getTeamByTeamName(String name);
     public List<TeamResponseDto> getAllTeam();
 
     //Update
-    public void modifyTeam(Long id, TeamModifyRequestDto teamModifyRequestDto);
+    public void modifyTeam(int id, TeamModifyRequestDto teamModifyRequestDto);
 
     //Delete
-    public void removeTeam(Long id);
+    public void removeTeam(int id);
 
 
 
