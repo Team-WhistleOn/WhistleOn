@@ -2,10 +2,10 @@
   <div class="banner">
     <div class="banner__logo" />
     <section class="banner__section">
-      <i class="fas fa-times" v-if="isOnHeader" @click="offNav"/>
+      <i class="fas fa-times header" v-if="isOnHeader" @click="offNav" />
       <i class="fas fa-ellipsis-v" v-else @click="onHeaderNav" />
       <router-link class="banner__title" to="/">Whistle On</router-link>
-      <i class="fas fa-times" v-if="isOnFooter" @click="offNav" />
+      <i class="fas fa-times footer" v-if="isOnFooter" @click="offNav" />
       <i class="fas fa-bars" v-else @click="onFooterNav"/>
     </section>
     <aside class="banner__aside">
@@ -30,21 +30,20 @@ export default class Banner extends Vue {
   protected isOnHeader: boolean = false;
   protected isOnFooter: boolean = false;
 
-  private onHeaderNav(): void {
+  private onHeaderNav() {
     this.offNav();
     this.isOnHeader = true;
   }
 
-  private onFooterNav(): void {
+  private onFooterNav() {
     this.offNav();
     this.isOnFooter = true;
   }
 
-  private offNav(): void {
+  private offNav() {
     this.isOnHeader = false;
     this.isOnFooter = false;
   }
-
 }
 </script>
 
@@ -58,18 +57,29 @@ export default class Banner extends Vue {
 .banner {
   @include layout-size(100%, null);
   @include set-pos(fixed, 0, 0, null, null, 1000);
+  @include flex-row;
+  @include align-fs;
+  padding: 10px 20px;
 
   &__logo {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     background-image: url('../assets/whistleon-logo.jpeg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
   }
 
+  &__section {
+    @include layout-size(100%, null);
+    @include flex-row;
+    @include align-sb;
+  }
+
   &__title {
     font-family: 'Permanent Marker', cursive;
+    font-size: 30px;
+    margin-left: 50px;
   }
 }
 
@@ -77,9 +87,15 @@ export default class Banner extends Vue {
   @include layout-size(50px, 50px);
   @include flex-row;
   @include align-center;
-  font-size: 25px;
-  color: #fff;
+  font-size: 35px;
+  color: #000;
+
+  &.header,
+  &.fa-ellipsis-v{
+    display: none;
+  }
 }
+
 
 @media screen and (max-width: 768px) {
   .banner {
@@ -102,12 +118,22 @@ export default class Banner extends Vue {
       @include layout-size(300px, 100%);
       color: #fff;
       font-size: 30px;
+      margin-left: 0;
     }
 
     &__section {
       @include layout-size(100%, null);
       @include flex-row;
       @include align-sb;
+    }
+  }
+
+  .fas {
+    color: #fff;
+    font-size: 25px;
+    &.header,
+    &.fa-ellipsis-v{
+      display: flex;
     }
   }
 }
