@@ -8,6 +8,9 @@ const userRoutes: RouteConfig[] = [
     name: 'main',
     component: () => import('@/views/MainView.vue'),
     beforeEnter: requireAuth(),
+    children: [
+
+    ],
   },
 ];
 
