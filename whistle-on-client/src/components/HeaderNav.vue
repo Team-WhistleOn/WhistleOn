@@ -26,16 +26,33 @@ export default class Header extends Vue {
 '../style/color.scss',
 '../style/variables.scss',
 '../style/mixins.scss',
-'../style/mobile/mixins.scss';
+'../style/mobile/mixins.scss',
+'../style/animation.scss';
 
 .header {
-  @include layout-size(100%, 100%);
-}
+  @include layout-size(100%, null);
+  @include set-pos(absolute, null, null, -70px, 0, 1000);
 
+  &__nav {
+    @include layout-size(100%, 70px);
+    @include flex-row;
+    @include box-shadow(0, 1px, 7px, 0);
+    background-color: $blue;
+    padding: 10px 20px;
+  }
+
+  &__router-link {
+    @include flex-row;
+    @include align-center;
+    font-size: 22px;
+    color: #fff;
+    margin-right: 10px;
+  }
+}
 
 @media screen and (max-width: 768px) {
   .header {
-    @include toolbar-modal(62px, null, null, 0, 1000);
+    @include toolbar-modal(-70px, null, null, 0, 1000);
 
     &__nav {
       @include layout-size(80%, 100vh);
@@ -44,12 +61,19 @@ export default class Header extends Vue {
       transition: all 500ms ease;
     }
 
-    &__nav.header__nav--off {
-      transform: translateX(-200%);
-      transition: all 500ms ease;
+    &__nav {
+      &--off {
+        transform: translateX(-200%);
+        transition: all 500ms ease;
+      }
+    }
+
+    &__router-link {
+      @include flex-row;
+      @include align-fs;
+      font-size: 16px;
+      margin-right: 0;
     }
   }
 }
-
-
 </style>
