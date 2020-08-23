@@ -32,7 +32,7 @@ const actions: ActionTree<IRoot, IRoot> = {
 
   async SIGN_UP({commit, dispatch}: {commit: Commit, dispatch: Dispatch}, newUserInfo: IUser) {
     try {
-      const {status, data: {msg}}: {status: number, data: {msg: string}} = await userSignup(newUserInfo);
+      const {status, data: {msg}}: AxiosResponse = await userSignup(newUserInfo);
       if (status === 201) {
         alert(msg);
         const loginResult = await dispatch('LOG_IN', {
@@ -50,7 +50,7 @@ const actions: ActionTree<IRoot, IRoot> = {
 
   async CHECK_EMAIL(context: ActionContext<IRoot, IRoot>, {email}: {email: string}): Promise<boolean> {
     try {
-      const {status, data: {msg}}: {status: number, data: {msg: string}} = await userEmailCheck({email});
+      const {status, data: {msg}}: AxiosResponse = await userEmailCheck({email});
       if (status === 200) {
         alert(msg);
         return true;
