@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component, Mixins} from 'vue-property-decorator';
+import {Component, Mixins} from 'vue-property-decorator';
 import {Action} from 'vuex-class';
 import formValidate from '@/mixins/formValidate';
 
