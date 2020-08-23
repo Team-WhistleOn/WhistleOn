@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component, Mixins} from 'vue-property-decorator';
+import {Component, Mixins} from 'vue-property-decorator';
 import {Action} from 'vuex-class';
 import formValidate from '@/mixins/formValidate';
 
@@ -43,7 +43,6 @@ import formValidate from '@/mixins/formValidate';
 export default class LoginView extends Mixins(formValidate) {
   private readonly email: string = '';
   private readonly password: string = '';
-
 
   @Action('LOG_IN')
   private readonly LOG_IN!: ({email, password}: {email: string, password: string}) => Promise<boolean>;
