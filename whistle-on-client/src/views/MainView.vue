@@ -24,5 +24,4 @@ export default class Main extends Vue {
 
 <style scoped lang="scss">
 @import '../style/fade-transition';
-
 </style>
