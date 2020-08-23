@@ -174,4 +174,23 @@ public class QnaServiceImpl implements QnaService{
             throw new UnauthorizedException();
         }
     }
+
+    @Override
+    public void updateQnaReply(int qnaId, String content) throws Exception {
+        String adminEmail = (String) jwtService.get("email");
+        if(adminEmail.equals("whistleon1@gmail.com")){
+            QnaReply qnaReply = Optional.of(qnaReplyRepository.findQnaReplyByQnaReplyId(qnaId)
+                    .orElseThrow(NoSuchElementException::new))
+                    .get();
+            qnaReply.updateQnaReply(content);
+            Qna qna = qnaReply.getQna();
+            for(QnaReply qnaReplyItem : qna.getQnaReplies()){
+                if(qnaReplyItem.getQnaReplyId() == qnaId){
+                    qnaReplyItem.updateQnaReply(content);
+                }
+            }
+        }else{
+            throw new UnauthorizedException();
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.halaguys.whistleon.controller;
 import com.halaguys.whistleon.domain.qna.QnaReply;
 import com.halaguys.whistleon.dto.request.QnaRegistRequestDto;
 import com.halaguys.whistleon.dto.request.QnaReplyRegistRequestDto;
+import com.halaguys.whistleon.dto.request.QnaReplyUpdateRequestDto;
 import com.halaguys.whistleon.dto.request.QnaUpdateRequestDto;
 import com.halaguys.whistleon.dto.response.QnaInfoResponseDto;
 import com.halaguys.whistleon.dto.response.QnaSearchAllResponseDto;
@@ -152,6 +153,26 @@ public class QnaController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @ApiOperation("qna reply update")
+    @PutMapping("/qna/reply/{qnaReplyId}")
+    public ResponseEntity<?> modifyQnaReply(@PathVariable int qnaReplyId, @RequestBody QnaReplyUpdateRequestDto qnaReplyUpdateRequestDto){
+        try {
+            qnaService.updateQnaReply(qnaReplyId,qnaReplyUpdateRequestDto.getContent());
+            Map<String,String> map = new HashMap<>();
+            map.put("msg","업데이트를 완료하였습니다.");
+            return new ResponseEntity<>(map,HttpStatus.OK);
+        } catch (NoSuchElementException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (UnauthorizedException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

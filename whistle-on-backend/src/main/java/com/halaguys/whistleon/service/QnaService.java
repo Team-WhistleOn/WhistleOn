@@ -26,4 +26,6 @@ public interface QnaService {
     int insertQnaReply(QnaReplyRegistRequestDto qnaReplyRegistDto) throws Exception;
     @Transactional
     void deleteQnaReply(int qnaId) throws Exception;
+    @Transactional
+    void updateQnaReply(int qnaId, String content) throws Exception;
 }
