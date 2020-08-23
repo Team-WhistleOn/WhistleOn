@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex, {ActionContext, Commit, Dispatch, StoreOptions} from 'vuex';
+import Vuex, {StoreOptions} from 'vuex';
 import team from './modules/team';
 import {IRoot} from '../types/interface';
 import state from '@/store/state';
