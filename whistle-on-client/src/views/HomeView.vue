@@ -13,7 +13,12 @@
 </template>
 
 <style scoped lang="scss">
-@import '../style/color.scss', '../style/variables', '../style/mixins', '../style/mobile/mixins.scss';
+@import
+'../style/color.scss',
+'../style/variables',
+'../style/mixins',
+'../style/mobile/mixins.scss',
+'../style/animation.scss';
 
 .home {
   @include flex-col;
@@ -39,13 +44,15 @@
   }
 
   &__title {
-    @include fade-in;
     font-size: $font-biggest;
     filter: drop-shadow(2px 2px 8px #fff);
+    animation-name: title-highlighter;
+    animation-iteration-count: 1;
+    animation-duration: 700ms;
+    animation-delay: 500ms;
   }
 
   &__greeting {
-    @include slide-from-left(1500ms);
     font-size: $font-bigger;
   }
 
