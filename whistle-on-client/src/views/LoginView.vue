@@ -31,12 +31,16 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator';
+import {Vue, Component, Mixins} from 'vue-property-decorator';
 import {Action} from 'vuex-class';
 import formValidate from '@/mixins/formValidate';
 
-@Component
-export default class LoginView extends Vue {
+@Component({
+  components: {
+    formValidate,
+  },
+})
+export default class LoginView extends Mixins(formValidate) {
   private readonly email: string = '';
   private readonly password: string = '';
 
@@ -46,7 +50,8 @@ export default class LoginView extends Vue {
 
   private async onSubmitLogin(): Promise<void> {
     try {
-      if(formValidate(this.$refs.form)) {
+      if (this.validateForm(
+          Array.prototype.filter.call(this.$refs.form, (v) => v.tagName === 'INPUT'))) {
         const response = await this.LOG_IN({
           email: this.email,
           password: this.password,
