@@ -1,20 +1,19 @@
 <template>
-  <main>
-    <header-nav />
-    <router-view />
-    <footer-nav />
+  <main class="main">
+    <banner />
+    <transition name="fade">
+      <router-view />
+    </transition>
   </main>
 </template>
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
-import HeaderNav from '@/components/HeaderNav.vue';
-import FooterNav from '@/components/FooterNav.vue';
+import Banner from '@/components/Banner.vue';
 
 @Component({
   components: {
-    HeaderNav,
-    FooterNav,
+    Banner,
   },
 })
 
@@ -24,5 +23,6 @@ export default class Main extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import '../style/fade-transition';
 
 </style>
