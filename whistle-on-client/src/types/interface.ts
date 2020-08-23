@@ -1,12 +1,10 @@
 export interface IRoot {
   accessToken: string | null;
   userName: string | null;
-  personal?: IUser;
-  team?: ITeam;
-  match?: IMatch;
 }
 
 export interface ITeam {
+  teamName: string | false;
   logo?: string;
   location?: string;
   description?: string;
@@ -19,7 +17,6 @@ export interface IUser {
   age: number;
   location: string;
   position: 'GK' | 'ST' | 'LW' | 'RW' | 'CAM' | 'CM' | 'CDM' | 'LB' | 'CB' | 'RB';
-  teamName?: string | false;
   win?: number;
   lose?: number;
   draw?: number;
