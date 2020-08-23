@@ -44,7 +44,6 @@ export default class LoginView extends Mixins(formValidate) {
   private readonly email: string = '';
   private readonly password: string = '';
 
-
   @Action('LOG_IN')
   private readonly LOG_IN!: ({email, password}: {email: string, password: string}) => Promise<boolean>;
 
