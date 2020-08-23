@@ -32,27 +32,30 @@
 
 <script lang="ts">
 import {Vue, Component} from 'vue-property-decorator';
-import {mapActions} from 'vuex';
+import {Action} from 'vuex-class';
+import formValidate from '@/mixins/formValidate';
 
-@Component({
-  methods: {
-    ...mapActions(['LOG_IN']),
-  },
-})
+@Component
 export default class LoginView extends Vue {
   private readonly email: string = '';
   private readonly password: string = '';
 
+
+  @Action('LOG_IN')
+  private readonly LOG_IN!: ({email, password}: {email: string, password: string}) => Promise<boolean>;
+
   private async onSubmitLogin(): Promise<void> {
     try {
-      const response: Promise<boolean> = await this.LOG_IN({
-        email: this.email,
-        password: this.password,
-      });
-      if (response) {
-        await this.$router.push('/main');
-      } else {
-        throw new Error('로그인을 실패하였습니다.');
+      if(formValidate(this.$refs.form)) {
+        const response = await this.LOG_IN({
+          email: this.email,
+          password: this.password,
+        });
+        if (response) {
+          await this.$router.push('/main');
+        } else {
+          throw new Error('로그인을 실패하였습니다.');
+        }
       }
     } catch (error) {
       console.error(error);

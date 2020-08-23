@@ -16,10 +16,10 @@ export interface IUser {
   email: string;
   password: string;
   userName: string;
-  teamName: string | false;
   age: number;
   location: string;
   position: 'GK' | 'ST' | 'LW' | 'RW' | 'CAM' | 'CM' | 'CDM' | 'LB' | 'CB' | 'RB';
+  teamName?: string | false;
   win?: number;
   lose?: number;
   draw?: number;
