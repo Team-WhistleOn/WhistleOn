@@ -1,20 +1,55 @@
 <template>
-  <header>
-    <nav>
-
+  <header class="header">
+    <nav class="header__nav" :class="{'header__nav--off': !isOnHeader}">
+      <router-link class="header__router-link" to="/notice">공지사항</router-link>
+      <router-link class="header__router-link" to="/">용병신청</router-link>
+      <router-link class="header__router-link" to="/rating">랭킹</router-link>
+      <router-link class="header__router-link" to="/game">경기일정</router-link>
+      <router-link class="header__router-link" to="/qna">Q&A</router-link>
+      <router-link class="header__router-link" to="/team/list">팀목록</router-link>
     </nav>
   </header>
 </template>
 
 <script lang="ts">
-import {Vue, Component} from 'vue-property-decorator';
+import {Vue, Component, Prop} from 'vue-property-decorator';
+import Bus from '@/utils/bus.ts';
 
 @Component
-export default class HeaderNav extends Vue {
-
+export default class Header extends Vue {
+  @Prop() isOnHeader!: boolean;
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import
+'../style/color.scss',
+'../style/variables.scss',
+'../style/mixins.scss',
+'../style/mobile/mixins.scss';
+
+.header {
+  @include layout-size(100%, 100%);
+}
+
+
+@media screen and (max-width: 768px) {
+  .header {
+    @include toolbar-modal(62px, null, null, 0, 1000);
+
+    &__nav {
+      @include layout-size(80%, 100vh);
+      @include flex-col;
+      @include align-fs;
+      transition: all 500ms ease;
+    }
+
+    &__nav.header__nav--off {
+      transform: translateX(-200%);
+      transition: all 500ms ease;
+    }
+  }
+}
+
 
 </style>

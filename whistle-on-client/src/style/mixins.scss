@@ -30,6 +30,16 @@
   justify-content: space-around;
 }
 
+@mixin align-fe {
+  @include align-center;
+  justify-content: flex-end;
+}
+
+@mixin align-fs {
+  @include align-center;
+  justify-content: flex-start;
+}
+
 @mixin margin-auto {
   margin: 0 auto;
 }
@@ -44,6 +54,15 @@
 }
 
 // position
+@mixin set-pos($type, $top, $right, $bottom, $left, $z-index) {
+  position: $type;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  z-index: $z-index;
+}
+
 @mixin fix-pos {
   position: fixed;
   top: $top;
@@ -69,17 +88,4 @@
 // ux
 @mixin pointer {
   cursor: pointer;
-}
-
-// animation | transition
-@mixin fade-in {
-  animation-name: fade-in;
-  animation-iteration-count: 1;
-  animation-duration: 1500ms;
-}
-
-@mixin slide-from-left {
-  animation-name: slide-from-left;
-  animation-iteration-count: 1;
-  animation-duration: 1500ms;
 }

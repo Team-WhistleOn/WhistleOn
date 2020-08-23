@@ -1,12 +1,10 @@
 export interface IRoot {
   accessToken: string | null;
   userName: string | null;
-  personal?: IUser;
-  team?: ITeam;
-  match?: IMatch;
 }
 
 export interface ITeam {
+  teamName: string | false;
   logo?: string;
   location?: string;
   description?: string;

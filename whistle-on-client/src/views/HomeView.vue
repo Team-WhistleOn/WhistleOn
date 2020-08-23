@@ -45,7 +45,7 @@
   }
 
   &__greeting {
-    @include slide-from-left;
+    @include slide-from-left(1500ms);
     font-size: $font-bigger;
   }
 
