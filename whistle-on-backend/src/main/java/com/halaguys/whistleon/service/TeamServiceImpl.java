@@ -4,7 +4,7 @@ import com.halaguys.whistleon.domain.team.Team;
 import com.halaguys.whistleon.domain.team.TeamRepository;
 import com.halaguys.whistleon.dto.request.TeamModifyRequestDto;
 import com.halaguys.whistleon.dto.request.TeamRegisterRequestDto;
-import com.halaguys.whistleon.dto.response.TeamResponseDto;
+import com.halaguys.whistleon.dto.response.TeamSearchResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,14 +17,12 @@ import java.util.Optional;
 @Service
 public class TeamServiceImpl implements TeamService {
 
+    @Autowired
     private TeamRepository teamRepository;
-    private MultipartFileService multipartFileService;
 
     @Autowired
-    public TeamServiceImpl(TeamRepository teamRepository, MultipartFileService multipartFileService) {
-        this.teamRepository = teamRepository;
-        this.multipartFileService = multipartFileService;
-    }
+    private MultipartFileService multipartFileService;
+
 
     //Create
     @Override
@@ -44,7 +42,7 @@ public class TeamServiceImpl implements TeamService {
 
     //Read
     @Override
-    public Optional<Team> findTeamById(Long id) {
+    public Optional<Team> findTeamById(int id) {
         return teamRepository.findById(id);
     }
 
@@ -59,11 +57,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamResponseDto getTeamById(Long id) {
+    public TeamSearchResponseDto getTeamById(int id) {
         Team team= Optional.of(findTeamById(id))
                 .orElseThrow(NoSuchElementException::new).get();
 
-        return TeamResponseDto.builder()
+        return TeamSearchResponseDto.builder()
                 .teamId(team.getTeamId())
                 .teamName(team.getTeamName())
                 .logo(team.getLogo())
@@ -73,11 +71,11 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamResponseDto getTeamByTeamName(String name) {
+    public TeamSearchResponseDto getTeamByTeamName(String name) {
         Team team= Optional.of(findTeamByTeamName(name))
                 .orElseThrow(NoSuchElementException::new).get();
 
-        return TeamResponseDto.builder()
+        return TeamSearchResponseDto.builder()
                 .teamId(team.getTeamId())
                 .teamName(team.getTeamName())
                 .logo(team.getLogo())
@@ -87,12 +85,12 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamResponseDto> getAllTeam(){
-        List<TeamResponseDto> teams = new ArrayList<>();
+    public List<TeamSearchResponseDto> getAllTeam(){
+        List<TeamSearchResponseDto> teams = new ArrayList<>();
 
         List<Team> entites = findAllTeam();
         for(Team t: entites){
-            teams.add(TeamResponseDto.builder()
+            teams.add(TeamSearchResponseDto.builder()
                     .teamId(t.getTeamId())
                     .teamName(t.getTeamName())
                     .location(t.getLocation())
@@ -108,7 +106,7 @@ public class TeamServiceImpl implements TeamService {
 
     //Update
     @Override
-    public void modifyTeam(Long id, TeamModifyRequestDto teamModifyRequestDto) {
+    public void modifyTeam(int id, TeamModifyRequestDto teamModifyRequestDto) {
         Team team = Optional.of(findTeamById(id)
         .orElseThrow(NoSuchElementException::new))
                 .get();
@@ -117,7 +115,7 @@ public class TeamServiceImpl implements TeamService {
 
     //Delete
     @Override
-    public void removeTeam(Long id) {
+    public void removeTeam(int id) {
         teamRepository.deleteById(id);
     }
 

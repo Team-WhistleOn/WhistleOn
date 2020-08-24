@@ -12,7 +12,6 @@ import com.halaguys.whistleon.dto.response.QnaInfoResponseDto;
 import com.halaguys.whistleon.dto.response.QnaReplyResponseDto;
 import com.halaguys.whistleon.dto.response.QnaSearchAllResponseDto;
 import com.halaguys.whistleon.exception.UnauthorizedException;
-import javafx.util.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

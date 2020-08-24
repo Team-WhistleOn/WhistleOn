@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Transactional
-public interface TeamRepository extends JpaRepository<Team,Long> {
+public interface TeamRepository extends JpaRepository<Team,Integer> {
 
     Optional<Team> findByTeamName(String name);
 }

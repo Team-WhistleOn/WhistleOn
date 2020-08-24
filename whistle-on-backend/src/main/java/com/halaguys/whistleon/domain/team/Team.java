@@ -2,6 +2,7 @@ package com.halaguys.whistleon.domain.team;
 
 import com.halaguys.whistleon.domain.user.User;
 import com.halaguys.whistleon.dto.request.TeamModifyRequestDto;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +14,13 @@ import java.util.List;
 
 @DynamicInsert
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name = "team")
 public class Team {
     @Id @GeneratedValue
     @Column(name = "team_id")
-    private Long teamId;
+    private int teamId;
 
     @Column(name = "team_name")
     private String teamName;
@@ -44,7 +46,7 @@ public class Team {
         this.description=description;
     }
 
-    public void update(Long id, TeamModifyRequestDto dto){
+    public void update(int id, TeamModifyRequestDto dto){
         this.teamName=dto.getTeamName();
         this.location=dto.getLocation();
         this.logo=dto.getLogo();

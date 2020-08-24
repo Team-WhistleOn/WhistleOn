@@ -9,8 +9,8 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class TeamResponseDto {
-    private Long teamId;
+public class TeamSearchResponseDto {
+    private int teamId;
     private String teamName;
     private String location;
     private String logo;
@@ -18,7 +18,7 @@ public class TeamResponseDto {
     private List<User> users;
 
     @Builder
-    public TeamResponseDto(Long teamId, String teamName, String location, String logo, String description, List<User> users) {
+    public TeamSearchResponseDto(int teamId, String teamName, String location, String logo, String description, List<User> users) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.location = location;
