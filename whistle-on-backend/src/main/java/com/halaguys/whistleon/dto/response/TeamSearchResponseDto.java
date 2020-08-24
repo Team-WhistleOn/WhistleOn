@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class TeamResponseDto {
+public class TeamSearchResponseDto {
     private int teamId;
     private String teamName;
     private String location;
@@ -18,7 +18,7 @@ public class TeamResponseDto {
     private List<User> users;
 
     @Builder
-    public TeamResponseDto(int teamId, String teamName, String location, String logo, String description, List<User> users) {
+    public TeamSearchResponseDto(int teamId, String teamName, String location, String logo, String description, List<User> users) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.location = location;

@@ -70,8 +70,9 @@ public class Match {
         this.away=away;
     }
 
-    public void afterMatch(String status,int homeScore, int awayScore){
+    public void afterMatch(String status,User mvp ,int homeScore, int awayScore){
         this.status=status;
+        this.mvp=mvp;
         this.homeScore=homeScore;
         this.awayScore=awayScore;
     }
